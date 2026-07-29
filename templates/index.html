@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>交通費管理システム</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🚗交通費管理システム</h1>
+
+<div class="section">
+
+<h2>スタッフ情報</h2>
+
+<div class="grid">
+
+<div>
+<label>氏名</label>
+<input type="text" id="name">
+</div>
+
+<div>
+<label>対象月</label>
+<input type="month" id="month">
+</div>
+
+</div>
+
+</div>
+
+<div class="section">
+
+<h2>交通費入力</h2>
+
+<div class="grid">
+
+<div>
+<label>開始日</label>
+<input type="date" id="startDate">
+</div>
+
+<div>
+<label>終了日</label>
+<input type="date" id="endDate">
+</div>
+
+<div>
+<label>出発地</label>
+<input type="text" id="start">
+</div>
+
+<div>
+<label>到着地</label>
+<input type="text" id="goal">
+</div>
+
+<div>
+<label>交通手段</label>
+<select id="vehicle">
+<option>電車</option>
+<option>バス</option>
+<option>車</option>
+<option>徒歩</option>
+<option>その他</option>
+</select>
+</div>
+
+<div>
+<label>片道・往復</label>
+<select id="trip">
+<option>片道</option>
+<option>往復</option>
+</select>
+</div>
+
+<div>
+<label>交通費（1日分）</label>
+<input type="number" id="money">
+</div>
+
+</div>
+
+<button class="add">
+＋交通費を追加
+</button>
+
+</div>
+
+<div class="section">
+
+<h2>登録一覧</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>期間</th>
+
+<th>経路</th>
+
+<th>手段</th>
+
+<th>区分</th>
+
+<th>日数</th>
+
+<th>合計</th>
+
+</tr>
+
+</thead>
+
+<tbody id="list">
+
+<tr>
+
+<td colspan="6">
+
+まだ登録されていません
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<div class="total">
+
+今月合計：0円
+
+</div>
+
+<button class="submit">
+
+提出
+
+</button>
+
+</div>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
