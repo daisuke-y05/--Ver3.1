@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>交通費編集</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>✏️交通費編集</h1>
+
+    <form method="POST" action="/update/{{ transportation.id }}">
+
+        <label>開始日</label>
+        <input type="date" name="start_date"
+               value="{{ transportation.start_date }}" required>
+
+        <label>終了日</label>
+        <input type="date" name="end_date"
+               value="{{ transportation.end_date }}" required>
+
+        <label>出発地</label>
+        <input type="text" name="departure"
+               value="{{ transportation.departure }}" required>
+
+        <label>到着地</label>
+        <input type="text" name="destination"
+               value="{{ transportation.destination }}" required>
+
+        <label>交通手段</label>
+
+        <select name="transport">
+
+            <option {% if transportation.transport=="電車" %}selected{% endif %}>電車</option>
+            <option {% if transportation.transport=="バス" %}selected{% endif %}>バス</option>
+            <option {% if transportation.transport=="車" %}selected{% endif %}>車</option>
+            <option {% if transportation.transport=="徒歩" %}selected{% endif %}>徒歩</option>
+            <option {% if transportation.transport=="その他" %}selected{% endif %}>その他</option>
+
+        </select>
+
+        <label>片道・往復</label>
+
+        <select name="trip_type">
+
+            <option {% if transportation.trip_type=="片道" %}selected{% endif %}>片道</option>
+            <option {% if transportation.trip_type=="往復" %}selected{% endif %}>往復</option>
+
+        </select>
+
+        <label>交通費（1日分）</label>
+
+        <input type="number"
+               name="fare"
+               value="{{ transportation.fare }}"
+               required>
+
+        <br><br>
+
+        <button type="submit" class="add">
+            💾 保存
+        </button>
+
+        <a href="/" style="margin-left:20px;">
+            戻る
+        </a>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

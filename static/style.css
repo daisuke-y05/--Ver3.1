@@ -86,3 +86,204 @@ th,td{
     margin-top:20px;
     font-weight:bold;
 }
+.empty{
+
+    padding:30px;
+
+    text-align:center;
+
+    color:#888;
+
+    border:2px dashed #ccc;
+
+    border-radius:10px;
+
+}
+
+.card{
+
+    margin-top:15px;
+
+    background:white;
+
+    border-left:6px solid #1565c0;
+
+    border-radius:10px;
+
+    padding:20px;
+
+    box-shadow:0 5px 10px rgba(0,0,0,.08);
+
+}
+
+.card h3{
+
+    margin-top:0;
+
+}
+
+.cardButtons{
+
+    margin-top:15px;
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+.edit{
+
+    background:#ff9800;
+
+    color:white;
+
+}
+
+.delete{
+
+    background:#e53935;
+
+    color:white;
+
+}
+
+.cardButtons{
+    margin-top:15px;
+}
+
+.cardButtons{
+    margin-top:15px;
+}
+
+.cardButtons a{
+    display:inline-block;
+    padding:8px 15px;
+    color:white;
+    text-decoration:none;
+    border-radius:6px;
+    margin-right:8px;
+}
+    display:inline-block;
+    padding:8px 15px;
+    background:#e53935;
+    color:white;
+    text-decoration:none;
+    border-radius:6px;
+    font-size:14px;
+}
+
+.cardButtons a:hover{
+    background:#c62828;
+}
+
+.editButton{
+    background:#1976d2;
+}
+
+.editButton:hover{
+    background:#1565c0;
+}
+
+.deleteButton{
+    background:#e53935;
+}
+
+.deleteButton:hover{
+    background:#c62828;
+}
+
+.summary{
+    margin-top:30px;
+    padding:20px;
+    background:#f7f7f7;
+    border-radius:10px;
+    border:1px solid #ddd;
+}
+
+.summary h2{
+    margin-top:0;
+}
+
+.summary p{
+    margin:8px 0;
+    font-size:18px;
+}
+
+.summary{
+    margin-top:40px;
+}
+
+.summaryGrid{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.summaryCard{
+    flex:1;
+    min-width:180px;
+    background:white;
+    border-radius:10px;
+    padding:20px;
+    text-align:center;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.summaryCard h3{
+    margin-top:0;
+    color:#666;
+    font-size:16px;
+}
+
+.summaryCard p{
+    font-size:28px;
+    font-weight:bold;
+    margin:10px 0 0;
+}
+
+.amount{
+    background:#4CAF50;
+    color:white;
+}
+
+.amount h3{
+    color:white;
+}
+
+/* ==========================
+   管理画面
+========================== */
+
+.adminTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.adminTable th {
+    background: #1976d2;
+    color: white;
+    padding: 12px;
+    text-align: center;
+}
+
+.adminTable td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.adminTable tr:nth-child(even) {
+    background: #f8f8f8;
+}
+
+.statusOK {
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.statusEdit {
+    color: #d32f2f;
+    font-weight: bold;
+}

@@ -2,160 +2,240 @@
 <html lang="ja">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>交通費管理システム Ver3.1</title>
 
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>交通費管理システム</title>
-
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
 
 <div class="container">
 
-<h1>🚗交通費管理システム</h1>
+    <h1>交通費管理システム Ver3.1</h1>
 
-<div class="section">
+    <!-- スタッフ選択 -->
+    <div class="section">
 
-<h2>スタッフ情報</h2>
+        <h2>スタッフ情報</h2>
 
-<div class="grid">
+        <form method="GET" action="/">
 
-<div>
-<label>氏名</label>
-<input type="text" id="name">
-</div>
+            <div class="grid">
 
-<div>
-<label>対象月</label>
-<input type="month" id="month">
-</div>
+                <div>
+                    <label>氏名</label>
+                    <input
+                        type="text"
+                        name="name"
+                        value="{{ name }}"
+                        required>
+                </div>
 
-</div>
+                <div>
+                    <label>対象月</label>
+                    <select name="month" required>
 
-</div>
+    <option value="">選択してください</option>
 
-<div class="section">
+    {% for m in months %}
 
-<h2>交通費入力</h2>
+        <option
+            value="{{ m.value }}"
+            {% if month==m.value %}selected{% endif %}>
 
-<div class="grid">
+            {{ m.label }}
 
-<div>
-<label>開始日</label>
-<input type="date" id="startDate">
-</div>
+        </option>
 
-<div>
-<label>終了日</label>
-<input type="date" id="endDate">
-</div>
+    {% endfor %}
 
-<div>
-<label>出発地</label>
-<input type="text" id="start">
-</div>
-
-<div>
-<label>到着地</label>
-<input type="text" id="goal">
-</div>
-
-<div>
-<label>交通手段</label>
-<select id="vehicle">
-<option>電車</option>
-<option>バス</option>
-<option>車</option>
-<option>徒歩</option>
-<option>その他</option>
 </select>
+                </div>
+
+            </div>
+
+            <button type="submit" class="add">
+                表示
+            </button>
+
+        </form>
+
+    </div>
+
+    {% if name and month %}
+
+    <!-- 交通費入力 -->
+    <form method="POST" action="/add">
+
+        <input type="hidden" name="name" value="{{ name }}">
+        <input type="hidden" name="month" value="{{ month }}">
+
+        <div class="section">
+
+            <h2>交通費入力</h2>
+
+            <div class="grid">
+
+                <div>
+                    <label>開始日</label>
+                    <input type="date" name="start_date" required>
+                </div>
+
+                <div>
+                    <label>終了日</label>
+                    <input type="date" name="end_date" required>
+                </div>
+
+                <div>
+                    <label>出発地</label>
+                    <input type="text" name="departure" required>
+                </div>
+
+                <div>
+                    <label>到着地</label>
+                    <input type="text" name="destination" required>
+                </div>
+
+                <div>
+                    <label>交通手段</label>
+
+                    <select name="transport">
+                        <option>電車</option>
+                        <option>バス</option>
+                        <option>車</option>
+                        <option>徒歩</option>
+                        <option>その他</option>
+                    </select>
+
+                </div>
+
+                <div>
+
+                    <label>片道・往復</label>
+
+                    <select name="trip_type">
+                        <option>片道</option>
+                        <option>往復</option>
+                    </select>
+
+                </div>
+
+                <div>
+
+                    <label>交通費（1日分）</label>
+                    <input type="number" name="fare" required>
+
+                </div>
+
+            </div>
+
+            <button type="submit" class="add">
+                ＋交通費を追加
+            </button>
+
+        </div>
+
+    </form>
+
+    <!-- 集計 -->
+    <div class="section">
+
+        <h2>📊 今月の集計</h2>
+
+        <div class="summaryGrid">
+
+            <div class="summaryCard">
+                <h3>登録件数</h3>
+                <p>{{ total_count }}件</p>
+            </div>
+
+            <div class="summaryCard">
+                <h3>利用日数</h3>
+                <p>{{ total_days }}日</p>
+            </div>
+
+            <div class="summaryCard amount">
+                <h3>合計金額</h3>
+                <p>{{ "{:,}".format(total_amount) }}円</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- 一覧 -->
+    <div class="section">
+
+        <h2>📋 登録一覧</h2>
+
+        {% if transportation_list %}
+
+            {% for item in transportation_list %}
+
+            <div class="card">
+
+                <h3>{{ item.start_date }} ～ {{ item.end_date }}</h3>
+
+                <p>{{ item.departure }} → {{ item.destination }}</p>
+
+                <p>{{ item.transport }}（{{ item.trip_type }}）</p>
+
+                <p>{{ item.fare }}円 × {{ item.days }}日</p>
+
+                <p><strong>合計 {{ item.total }}円</strong></p>
+
+                <div class="cardButtons">
+
+                    <a href="/edit/{{ item.id }}" class="editButton">
+                        ✏️ 編集
+                    </a>
+
+                    <a href="/delete/{{ item.id }}"
+                       class="deleteButton"
+                       onclick="return confirm('この交通費を削除しますか？')">
+                        🗑 削除
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty">
+                この月の交通費はまだ登録されていません。
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    <!-- 提出 -->
+
+    <form method="POST" action="/submit">
+
+        <input type="hidden" name="name" value="{{ name }}">
+        <input type="hidden" name="month" value="{{ month }}">
+
+        <button
+            type="submit"
+            class="add"
+            onclick="return confirm('提出しますか？提出後も編集は可能です。')">
+
+            この内容で提出
+
+        </button>
+
+    </form>
+
+    {% endif %}
+
 </div>
-
-<div>
-<label>片道・往復</label>
-<select id="trip">
-<option>片道</option>
-<option>往復</option>
-</select>
-</div>
-
-<div>
-<label>交通費（1日分）</label>
-<input type="number" id="money">
-</div>
-
-</div>
-
-<button class="add">
-＋交通費を追加
-</button>
-
-</div>
-
-<div class="section">
-
-<h2>登録一覧</h2>
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>期間</th>
-
-<th>経路</th>
-
-<th>手段</th>
-
-<th>区分</th>
-
-<th>日数</th>
-
-<th>合計</th>
-
-</tr>
-
-</thead>
-
-<tbody id="list">
-
-<tr>
-
-<td colspan="6">
-
-まだ登録されていません
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-<div class="total">
-
-今月合計：0円
-
-</div>
-
-<button class="submit">
-
-提出
-
-</button>
-
-</div>
-
-</div>
-
-<script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
+
 </html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提出内容詳細</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📄 提出内容詳細</h1>
+
+    <div class="section">
+
+        <h2>{{ name }}　{{ month }}</h2>
+
+        {% if transportation_list %}
+
+            {% for item in transportation_list %}
+
+            <div class="card">
+
+                <h3>{{ item.start_date }} ～ {{ item.end_date }}</h3>
+
+                <p>{{ item.departure }} → {{ item.destination }}</p>
+
+                <p>{{ item.transport }}（{{ item.trip_type }}）</p>
+
+                <p>{{ item.fare }}円 × {{ item.days }}日</p>
+
+                <p><strong>合計 {{ "{:,}".format(item.total) }}円</strong></p>
+
+            </div>
+
+            {% endfor %}
+
+            <div class="summaryCard amount">
+
+                <h2>合計 {{ "{:,}".format(total_amount) }}円</h2>
+
+            </div>
+
+        {% else %}
+
+            <div class="empty">
+
+                データがありません。
+
+            </div>
+
+        {% endif %}
+
+        <br>
+
+        <a href="/admin" class="add">
+
+            管理画面へ戻る
+
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
